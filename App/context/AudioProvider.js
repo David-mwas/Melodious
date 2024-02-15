@@ -12,6 +12,7 @@ export class AudioProvider extends Component {
       audiofiles: [],
       permissionError: false,
       dataProvider: new DataProvider((r1, r2) => r1 !== r2),
+      loading: false,
     };
   }
   permissionAlert = () => {
@@ -28,6 +29,7 @@ export class AudioProvider extends Component {
 
   getAudioFiles = async () => {
     const { dataProvider, audiofiles } = this.state;
+    this.setState({ ...this.state, loading: true });
     let media = await MediaLibrary.getAssetsAsync({
       mediaType: "audio",
     });
@@ -68,9 +70,10 @@ export class AudioProvider extends Component {
   };
   componentDidMount() {
     this.getPermission();
+    this.setState({ ...this.state, loading: false });
   }
   render() {
-    const { audiofiles, dataProvider, permissionError } = this.state;
+    const { audiofiles, dataProvider, permissionError, loading } = this.state;
     if (permissionError) {
       return (
         <View
@@ -83,7 +86,7 @@ export class AudioProvider extends Component {
       );
     }
     return (
-      <AudioContext.Provider value={{ audiofiles, dataProvider }}>
+      <AudioContext.Provider value={{ audiofiles, dataProvider, loading }}>
         {this.props.children}
       </AudioContext.Provider>
     );

@@ -1,24 +1,58 @@
 import React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, Text } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import Color from "../misc/Color";
-const AudioListItem = () => {
+
+const getThumbnailText = (filename) => {
+  let name = filename[0];
+  if (filename.slice(0, 8) == "yt1s.com") {
+    name = filename[11];
+  }
+  if (filename.slice(0, 7) == "yt1scom") {
+    name = filename[7];
+  }
+  if (filename.slice(0, 13) == "[YT2mp3.info]") {
+    name = filename[16];
+  }
+  return name;
+};
+const converTime = (minutes) => {
+  if (minutes) {
+    const hrs = minutes / 60;
+    const minute = hrs.toString().split(".")[0];
+    const percent = parseInt(hrs.toString().split(".")[1].slice(0, 2));
+    const sec = Math.ceil((60 * percent) / 100);
+
+    if (parseInt(minute) < 10 && sec < 10) {
+      return `0${minute}:0${sec}`;
+    }
+    if (parseInt(minute) < 10) {
+      return `0${minute}:${sec}`;
+    }
+    if (sec < 10) {
+      return `${minute}:0${sec}`;
+    }
+    return `${minute}:${sec}`;
+  }
+};
+const AudioListItem = ({ title, duration, onPressOptions }) => {
   return (
     <>
       <View style={styles.container}>
         <View style={styles.leftContainer}>
-          <View styles={styles.thumbnail}>
-            <Text style={styles.thumbnailText}>A</Text>
+          <View style={styles.thumbnail}>
+            <Text style={styles.thumbnailText}>{getThumbnailText(title)}</Text>
           </View>
           <View style={styles.titleContainer}>
             <Text style={styles.title} numberOfLines={1}>
-              Title
+              {title}
             </Text>
-            <Text style={styles.timeText}>03:59</Text>
+            <Text style={styles.timeText}>{converTime(duration)}</Text>
           </View>
         </View>
         <View styles={styles.rightContainer}>
           <Entypo
+            onPress={onPressOptions}
             name="dots-three-vertical"
             size={20}
             color={Color.FONT_MEDIUM}
@@ -54,6 +88,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     color: Color.FONT,
+    fontWeight: "600",
   },
   thumbnail: {
     height: 50,
