@@ -8,7 +8,7 @@ export default class AudioList extends Component {
 
   // Define layoutProvider as a method within the class
   layoutProvider = new LayoutProvider(
-    (i) => "audio", // Corrected the syntax here
+    (i) => "audio",
     (type, dim) => {
       switch (type) {
         case "audio":
