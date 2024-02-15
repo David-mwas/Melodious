@@ -1,12 +1,28 @@
-import { Text, StyleSheet, View, ScrollView, Dimensions } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  Dimensions,
+  Modal,
+} from "react-native";
 import React, { Component } from "react";
 import { AudioContext } from "../context/AudioProvider";
 import { RecyclerListView, LayoutProvider } from "recyclerlistview";
 import AudioListItem from "../components/AudioListItem";
 import Screen from "../components/Screen";
+import OptionModel from "../components/OptionModel";
 
 export default class AudioList extends Component {
   static contextType = AudioContext;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      optionModalViscible: false,
+    };
+    this.currentItem = {};
+  }
 
   // Define layoutProvider as a method within the class
   layoutProvider = new LayoutProvider(
@@ -30,7 +46,10 @@ export default class AudioList extends Component {
       <AudioListItem
         title={item.filename}
         duration={item.duration}
-        onPressOptions={() => {}}
+        onPressOptions={() => {
+          this.currentItem = item;
+          this.setState({ ...this.state, optionModalViscible: true });
+        }}
       />
     );
   };
@@ -46,6 +65,15 @@ export default class AudioList extends Component {
                 dataProvider={dataProvider}
                 layoutProvider={this.layoutProvider}
                 rowRenderer={this.rowRenderer}
+              />
+              <OptionModel
+                currentItem={this.currentItem}
+                onPlayListPress={() => {}}
+                onPlayPress={() => {}}
+                visible={this.state.optionModalViscible}
+                onClose={() => {
+                  this.setState({ ...this.state, optionModalViscible: false });
+                }}
               />
             </Screen>
           );
