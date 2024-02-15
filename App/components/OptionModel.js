@@ -5,6 +5,7 @@ import {
   Modal,
   StatusBar,
   TouchableWithoutFeedback,
+  Text,
 } from "react-native";
 import Color from "../misc/Color";
 
@@ -35,7 +36,6 @@ const OptionModel = ({
           </View>
         </View>
         <TouchableWithoutFeedback onPress={onClose}>
-          {" "}
           <View style={styles.modelBg} />
         </TouchableWithoutFeedback>
       </Modal>
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.APP_BG,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    elevation: 20,
     zIndex: 1000,
   },
   optionContainer: {
