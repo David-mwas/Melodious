@@ -29,7 +29,7 @@ export class AudioProvider extends Component {
 
   getAudioFiles = async () => {
     const { dataProvider, audiofiles } = this.state;
-    this.setState({ ...this.state, loading: true });
+
     let media = await MediaLibrary.getAssetsAsync({
       mediaType: "audio",
     });
@@ -50,6 +50,7 @@ export class AudioProvider extends Component {
     const permission = await MediaLibrary.getPermissionsAsync();
     if (permission.granted) {
       this.getAudioFiles();
+      this.setState({ ...this.state, loading: true });
     }
     if (!permission.canAskAgain && !permission.granted) {
       this.setState({ ...this.state, permissionError: true });

@@ -14,7 +14,11 @@ const Screen = ({ children, loading }) => {
       {loading ? (
         <View style={styles.container}>{children}</View>
       ) : (
-        <ActivityIndicator />
+        <ActivityIndicator
+          size={40}
+          style={{ marginTop: 25 }}
+          color={Color.ACTIVE_BG}
+        />
       )}
     </>
   );
