@@ -18,7 +18,7 @@ To install Musica on your device, follow these steps:
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/musica.git
+   git clone https://github.com/David/musica.git
    ```
 
 2. Navigate to the project directory:
@@ -69,5 +69,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For any questions, issues, or feedback regarding Musica, please contact [Your Name](mailto:your.email@example.com).
+For any questions, issues, or feedback regarding Musica, please contact [David Mwas](mailto:dmwas704@gmail.com).
 
