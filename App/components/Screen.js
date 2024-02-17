@@ -1,27 +1,9 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  StatusBar,
-  Text,
-  ActivityIndicator,
-} from "react-native";
+import { View, StyleSheet, StatusBar, Text } from "react-native";
 import Color from "../misc/Color";
 
 const Screen = ({ children, loading }) => {
-  return (
-    <>
-      {loading ? (
-        <View style={styles.container}>{children}</View>
-      ) : (
-        <ActivityIndicator
-          size={40}
-          style={{ marginTop: 25 }}
-          color={Color.ACTIVE_BG}
-        />
-      )}
-    </>
-  );
+  return <View style={styles.container}>{children}</View>;
 };
 
 const styles = StyleSheet.create({

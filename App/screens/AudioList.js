@@ -5,6 +5,7 @@ import {
   ScrollView,
   Dimensions,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 import React, { Component } from "react";
 import { AudioContext } from "../context/AudioProvider";
@@ -12,6 +13,7 @@ import { RecyclerListView, LayoutProvider } from "recyclerlistview";
 import AudioListItem from "../components/AudioListItem";
 import Screen from "../components/Screen";
 import OptionModel from "../components/OptionModel";
+import Color from "../misc/Color";
 
 export default class AudioList extends Component {
   static contextType = AudioContext;
@@ -60,21 +62,34 @@ export default class AudioList extends Component {
         {({ dataProvider, loading }) => {
           console.log(loading);
           return (
-            <Screen style={{ flex: 1 }} loading={loading}>
-              <RecyclerListView
-                dataProvider={dataProvider}
-                layoutProvider={this.layoutProvider}
-                rowRenderer={this.rowRenderer}
-              />
-              <OptionModel
-                currentItem={this.currentItem}
-                onPlayListPress={() => {}}
-                onPlayPress={() => {}}
-                visible={this.state.optionModalViscible}
-                onClose={() => {
-                  this.setState({ ...this.state, optionModalViscible: false });
-                }}
-              />
+            <Screen style={{ flex: 1 }}>
+              {loading ? (
+                <>
+                  <RecyclerListView
+                    dataProvider={dataProvider}
+                    layoutProvider={this.layoutProvider}
+                    rowRenderer={this.rowRenderer}
+                  />
+                  <OptionModel
+                    currentItem={this.currentItem}
+                    onPlayListPress={() => {}}
+                    onPlayPress={() => {}}
+                    visible={this.state.optionModalViscible}
+                    onClose={() => {
+                      this.setState({
+                        ...this.state,
+                        optionModalViscible: false,
+                      });
+                    }}
+                  />
+                </>
+              ) : (
+                <ActivityIndicator
+                  size={40}
+                  style={{ marginTop: 25 }}
+                  color={Color.ACTIVE_BG}
+                />
+              )}
             </Screen>
           );
         }}
