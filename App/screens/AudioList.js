@@ -15,7 +15,7 @@ import Screen from "../components/Screen";
 import OptionModel from "../components/OptionModel";
 import Color from "../misc/Color";
 import { Audio } from "expo-av";
-import { pause, play, resume } from "../misc/AudioController";
+import { pause, play, playNext, resume } from "../misc/AudioController";
 
 export default class AudioList extends Component {
   static contextType = AudioContext;
@@ -56,7 +56,11 @@ export default class AudioList extends Component {
       });
     }
     // pause audio
-    if (soundObj.isLoaded && soundObj.isPlaying) {
+    if (
+      soundObj.isLoaded &&
+      soundObj.isPlaying &&
+      currentAudio.id === audio.id
+    ) {
       const status = await pause(playBack);
       return updateState(this.context, { soundObj: status });
     }
@@ -68,7 +72,16 @@ export default class AudioList extends Component {
       currentAudio.id === audio.id
     ) {
       const status = await resume(playBack);
-      return updateState(this.state, {
+      return updateState(this.context, {
+        soundObj: status,
+      });
+    }
+
+    // select another audio
+    if (soundObj.isLoaded && currentAudio.id !== audio.id) {
+      const status = await playNext(playBack, audio.uri);
+      return updateState(this.context, {
+        currentAudio: audio,
         soundObj: status,
       });
     }
