@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
+    height:"20%",
     backgroundColor: Color.APP_BG,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

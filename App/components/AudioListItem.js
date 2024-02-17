@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import Color from "../misc/Color";
 
@@ -35,21 +41,26 @@ const converTime = (minutes) => {
     return `${minute}:${sec}`;
   }
 };
-const AudioListItem = ({ title, duration, onPressOptions }) => {
+const AudioListItem = ({ title, duration, onPressOptions, onAudioPress }) => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.leftContainer}>
-          <View style={styles.thumbnail}>
-            <Text style={styles.thumbnailText}>{getThumbnailText(title)}</Text>
+        <TouchableWithoutFeedback onPress={onAudioPress}>
+          <View style={styles.leftContainer}>
+            <View style={styles.thumbnail}>
+              <Text style={styles.thumbnailText}>
+                {getThumbnailText(title)}
+              </Text>
+            </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title} numberOfLines={1}>
+                {title}
+              </Text>
+              <Text style={styles.timeText}>{converTime(duration)}</Text>
+            </View>
           </View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title} numberOfLines={1}>
-              {title}
-            </Text>
-            <Text style={styles.timeText}>{converTime(duration)}</Text>
-          </View>
-        </View>
+        </TouchableWithoutFeedback>
+
         <View styles={styles.rightContainer}>
           <Entypo
             onPress={onPressOptions}
@@ -108,7 +119,7 @@ const styles = StyleSheet.create({
     width: width - 80,
     backgroundColor: "#333",
     opacity: 0.3,
-    height: 0.5,
+    height: 1.3,
     alignSelf: "center",
     marginTop: 10,
   },

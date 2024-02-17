@@ -14,6 +14,7 @@ import AudioListItem from "../components/AudioListItem";
 import Screen from "../components/Screen";
 import OptionModel from "../components/OptionModel";
 import Color from "../misc/Color";
+import { Audio } from "expo-av";
 
 export default class AudioList extends Component {
   static contextType = AudioContext;
@@ -22,6 +23,9 @@ export default class AudioList extends Component {
     super(props);
     this.state = {
       optionModalViscible: false,
+      playBack: null,
+      soundObj: null,
+      currentAudio: {},
     };
     this.currentItem = {};
   }
@@ -41,6 +45,46 @@ export default class AudioList extends Component {
       }
     }
   );
+  handleAudioPress = async (audio) => {
+    console.log(audio.id);
+    // playing audio for 1st time
+    if (this.state.soundObj === null) {
+      const playBack = new Audio.Sound();
+      const status = await playBack.loadAsync(
+        { uri: audio.uri },
+        { shouldPlay: true }
+      );
+      return this.setState({
+        ...this.state,
+        currentAudio: audio,
+        playBack: playBack,
+        soundObj: status,
+      });
+    }
+    // pause audio
+    if (this.state.soundObj.isLoaded && this.state.soundObj.isPlaying) {
+      const status = await this.state.playBack.setStatusAsync({
+        shouldPlay: false,
+      });
+      return this.setState({
+        ...this.state,
+        soundObj: status,
+      });
+    }
+
+    // resume audio
+    if (
+      this.state.soundObj.isLoaded &&
+      !this.state.soundObj.isPlaying &&
+      this.state.currentAudio === audio.id
+    ) {
+      const status = await this.state.playBack.playAsync();
+      return this.setState({
+        ...this.state,
+        soundObj: status,
+      });
+    }
+  };
 
   rowRenderer = (type, item) => {
     // console.log(item);
@@ -48,6 +92,9 @@ export default class AudioList extends Component {
       <AudioListItem
         title={item.filename}
         duration={item.duration}
+        onAudioPress={() => {
+          this.handleAudioPress(item);
+        }}
         onPressOptions={() => {
           this.currentItem = item;
           this.setState({ ...this.state, optionModalViscible: true });
