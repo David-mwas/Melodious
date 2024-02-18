@@ -16,6 +16,8 @@ export class AudioProvider extends Component {
       playBack: null,
       soundObj: null,
       currentAudio: {},
+      isPlaying: false,
+      currentAudioIndex: null,
     };
   }
   permissionAlert = () => {
@@ -89,6 +91,8 @@ export class AudioProvider extends Component {
       playBack,
       soundObj,
       currentAudio,
+      isPlaying,
+      currentAudioIndex,
     } = this.state;
     if (permissionError) {
       return (
@@ -110,6 +114,8 @@ export class AudioProvider extends Component {
           playBack,
           soundObj,
           currentAudio,
+          isPlaying,
+          currentAudioIndex,
           updateState: this.updateState,
         }}
       >
