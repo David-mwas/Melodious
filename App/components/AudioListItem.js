@@ -45,7 +45,7 @@ const renderPlayPauseIcon = (isPlaying) => {
   console.log("isplaying", isPlaying);
   if (isPlaying) {
     return (
-      <Entypo name="controller-pause" size={24} color={Color.ACTIVE_FONT} />
+      <Entypo name="controller-paus" size={24} color={Color.ACTIVE_FONT} />
     );
   } else {
     return (
