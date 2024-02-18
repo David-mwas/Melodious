@@ -18,7 +18,7 @@ To install Melodious on your device, follow these steps:
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/David Melodious.git
+   [git clone https://github.com/David-mwas/Melodious.git](https://github.com/David-mwas/Melodious.git)
    ```
 
 2. Navigate to the project directory:
