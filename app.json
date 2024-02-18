@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "musica",
-    "slug": "musica",
+    "name": "melodious",
+    "slug": "melodious",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
