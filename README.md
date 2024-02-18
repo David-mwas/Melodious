@@ -1,4 +1,4 @@
-# Melodious: "Experience the pure joy of melody with Melodious."
+# Melodious: "Experience the pure joy of melody"
 
 Melodious is a mobile app that serves as your ultimate music player, allowing you to enjoy your favorite songs anytime, anywhere. With Melodious, you can listen to your entire music library, create custom playlists, and control playback with ease.
 
