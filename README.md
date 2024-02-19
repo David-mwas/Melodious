@@ -14,6 +14,13 @@ Melodious is a mobile app that serves as your ultimate music player, allowing yo
 ## Installation
 
 To install Melodious on your device, follow these steps:
+Install using expo
+
+```bash
+npx create-expo-app my-app && cd my-app
+```
+
+Install expo go app to run the app
 
 1. Clone the repository to your local machine:
 
