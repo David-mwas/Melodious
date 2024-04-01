@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.APP_BG,
-    // expo contants api to support both android and ios
+    // expo constants api to support both android and ios
     paddingTop: StatusBar.currentHeight,
   },
 });
