@@ -43,6 +43,15 @@ export default class AudioList extends Component {
       }
     }
   );
+  onPlayBackStatus = (playbackStatus) => {
+    // console.log("playbackstatus", playbackStatus);
+    if (playbackStatus.isLoaded && playbackStatus.isPlaying) {
+      this.context.updateState(this.context, {
+        playBackPosition: playbackStatus?.positionMillis,
+        playBackDuration: playbackStatus?.durationMillis,
+      });
+    }
+  };
   handleAudioPress = async (audio) => {
     const { soundObj, playBack, currentAudio, updateState, audiofiles } =
       this.context;
@@ -51,13 +60,14 @@ export default class AudioList extends Component {
       const playBack = new Audio.Sound();
       const status = await play(playBack, audio.uri);
       const index = audiofiles.indexOf(audio);
-      return updateState(this.context, {
+      updateState(this.context, {
         currentAudio: audio,
         playBack: playBack,
         soundObj: status,
         isPlaying: true,
         currentAudioIndex: index,
       });
+      return playBack.setOnPlaybackStatusUpdate(this.onPlayBackStatus);
     }
 
     // pause audio

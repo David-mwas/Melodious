@@ -7,19 +7,17 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/headphoneblack.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#5252ad"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/headphoneblack.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#5252ad"
       }
     },
