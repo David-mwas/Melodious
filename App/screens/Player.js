@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import PlayerButton from "../components/PlayerButton";
 import { AudioContext } from "../context/AudioProvider";
+import { pause, play, resume } from "../misc/AudioController";
 const { width } = Dimensions.get("window");
 
 const Player = () => {
@@ -20,7 +21,37 @@ const Player = () => {
 
   useEffect(() => {
     context.loadPreviousAudio();
-  },[]);
+  }, []);
+  const handlePlayPause = async () => {
+    // play
+    if (context.soundObj === null) {
+      const audio = context.currentAudio;
+      const status = await play(context.playBack, audio?.uri);
+      return context.updateState(context, {
+        soundObj: status,
+        currentAudio: audio,
+        isPlaying: true,
+        currentAudioIndex: context.currentAudioIndex,
+      });
+    }
+    // pause
+    if (context.soundObj && context.soundObj.isPlaying) {
+      const status = await resume(context.playBack);
+      return context.updateState(context, {
+        soundObj: status,
+        isPlaying: false,
+      });
+    }
+    // resume
+
+    if (context.soundObj && !context.soundObj.isPlaying) {
+      const status = await pause(context.playBack);
+      return context.updateState(context, {
+        soundObj: status,
+        isPlaying: true,
+      });
+    }
+  };
   if (!context.currentAudio) return null;
   // console.log(playBackPosition, playBackDuration);
   return (
@@ -57,6 +88,7 @@ const Player = () => {
               }}
             />
             <PlayerButton
+              onPress={handlePlayPause}
               size={50}
               style={{ marginHorizontal: 25 }}
               iconType={context.isPlaying ? "PLAY" : "PAUSE"}

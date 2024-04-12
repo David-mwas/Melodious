@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Audio } from "expo-av";
 import * as MediaLibrary from "expo-media-library";
 import React, { Component, createContext } from "react";
 import { Alert } from "react-native";
@@ -100,6 +101,9 @@ export class AudioProvider extends Component {
   componentDidMount() {
     this.getPermission();
     this.setState({ ...this.state, loading: false });
+    if (this.state.playBack === null) {
+      this.setState({ ...this.state, playBack: new Audio.Sound() });
+    }
   }
 
   updateState = (prevState, newState = {}) => {
