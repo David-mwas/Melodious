@@ -36,7 +36,7 @@ const Player = () => {
     }
     // pause
     if (context.soundObj && context.soundObj.isPlaying) {
-      const status = await resume(context.playBack);
+      const status = await pause(context.playBack);
       return context.updateState(context, {
         soundObj: status,
         isPlaying: false,
@@ -45,7 +45,7 @@ const Player = () => {
     // resume
 
     if (context.soundObj && !context.soundObj.isPlaying) {
-      const status = await pause(context.playBack);
+      const status = await resume(context.playBack);
       return context.updateState(context, {
         soundObj: status,
         isPlaying: true,

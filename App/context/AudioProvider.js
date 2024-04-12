@@ -73,7 +73,7 @@ export class AudioProvider extends Component {
       currentAudio = previousAudio?.audio;
       currentAudioIndex = previousAudio?.index;
     }
-    this.setState(...this.state, currentAudio, currentAudioIndex);
+    this.setState({ ...this.state, currentAudio, currentAudioIndex });
   };
   getPermission = async () => {
     const permission = await MediaLibrary.getPermissionsAsync();
