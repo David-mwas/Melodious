@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, StyleSheet, Text, Dimensions, StatusBar } from "react-native";
 import Screen from "../components/Screen";
 import Color from "../misc/Color";
@@ -17,10 +17,15 @@ const Player = () => {
     }
     return 0;
   };
-  console.log(playBackPosition, playBackDuration);
+
+  useEffect(() => {
+    context.loadPreviousAudio();
+  },[]);
+  if (!context.currentAudio) return null;
+  // console.log(playBackPosition, playBackDuration);
   return (
     <Screen>
-      <StatusBar hidden={false}  backgroundColor={Color.ACTIVE_BG}/>
+      <StatusBar hidden={false} backgroundColor={Color.ACTIVE_BG} />
       <View style={styles.container}>
         <Text style={styles.audioCount}>{`${context.currentAudioIndex + 1}/${
           context.totalAudioCount

@@ -16,6 +16,7 @@ import OptionModel from "../components/OptionModel";
 import Color from "../misc/Color";
 import { Audio } from "expo-av";
 import { pause, play, playNext, resume } from "../misc/AudioController";
+import { storeAudioForNextOpening } from "../misc/helper";
 
 export default class AudioList extends Component {
   static contextType = AudioContext;
@@ -56,7 +57,7 @@ export default class AudioList extends Component {
       const nextAudioIndex = this.context.currentAudioIndex + 1;
       if (nextAudioIndex >= this.context?.totalAudioCount) {
         this.context.playBack.unloadAsync();
-        return this.context.updateState(this.context, {
+        this.context.updateState(this.context, {
           soundObj: null,
           currentAudio: this.context.audiofiles[0],
           isPlaying: false,
@@ -64,6 +65,7 @@ export default class AudioList extends Component {
           playBackPosition: null,
           playBackDuration: null,
         });
+        return await storeAudioForNextOpening(this.context.audiofiles[0], 0);
       }
       const audio = this.context.audiofiles[nextAudioIndex];
       const status = await playNext(this.context.playBack, audio?.url);
@@ -73,8 +75,11 @@ export default class AudioList extends Component {
         isPlaying: true,
         currentAudioIndex: nextAudioIndex,
       });
+
+      await storeAudioForNextOpening(audio, nextAudioIndex);
     }
   };
+
   handleAudioPress = async (audio) => {
     const { soundObj, playBack, currentAudio, updateState, audiofiles } =
       this.context;
@@ -90,7 +95,8 @@ export default class AudioList extends Component {
         isPlaying: true,
         currentAudioIndex: index,
       });
-      return playBack.setOnPlaybackStatusUpdate(this.onPlayBackStatus);
+      playBack.setOnPlaybackStatusUpdate(this.onPlayBackStatus);
+      return storeAudioForNextOpening(audio, index);
     }
 
     // pause audio
@@ -127,15 +133,18 @@ export default class AudioList extends Component {
     if (soundObj.isLoaded && currentAudio.id !== audio.id) {
       const status = await playNext(playBack, audio.uri);
       const index = audiofiles.indexOf(audio);
-      return updateState(this.context, {
+      updateState(this.context, {
         currentAudio: audio,
         soundObj: status,
         isPlaying: true,
         currentAudioIndex: index,
       });
+      return storeAudioForNextOpening(audio, index);
     }
   };
-
+  componentDidMount() {
+    this.context.loadPreviousAudio();
+  }
   rowRenderer = (type, item, index, extendedState) => {
     // console.log(item);
     return (
@@ -159,7 +168,8 @@ export default class AudioList extends Component {
     return (
       <AudioContext.Consumer>
         {({ dataProvider, loading, isPlaying }) => {
-          console.log(isPlaying);
+          if (!dataProvider?._data?.length) return null;
+          // console.log(isPlaying);
           return (
             <Screen style={{ flex: 1 }}>
               {loading ? (

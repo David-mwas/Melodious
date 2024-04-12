@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as MediaLibrary from "expo-media-library";
 import React, { Component, createContext } from "react";
 import { Alert } from "react-native";
@@ -23,6 +24,7 @@ export class AudioProvider extends Component {
     };
     this.totalAudioCount = 0;
   }
+
   permissionAlert = () => {
     Alert.alert("Permission required", "This app needs to read audiofiles!", [
       {
@@ -54,6 +56,23 @@ export class AudioProvider extends Component {
       ]),
       audiofiles: [...audiofiles, ...media.assets],
     });
+  };
+
+  // load prev audio
+  loadPreviousAudio = async () => {
+    let previousAudio = await AsyncStorage.getItem("previousAudio");
+    let currentAudio;
+    let currentAudioIndex;
+
+    if (previousAudio === null) {
+      currentAudio = this.state.audiofiles[0];
+      currentAudioIndex = 0;
+    } else {
+      previousAudio = JSON.parse(previousAudio);
+      currentAudio = previousAudio?.audio;
+      currentAudioIndex = previousAudio?.index;
+    }
+    this.setState(...this.state, currentAudio, currentAudioIndex);
   };
   getPermission = async () => {
     const permission = await MediaLibrary.getPermissionsAsync();
@@ -126,6 +145,7 @@ export class AudioProvider extends Component {
           playBackPosition,
           playBackDuration,
           updateState: this.updateState,
+          loadPreviousAudio: this.loadPreviousAudio,
         }}
       >
         {this.props.children}
