@@ -4,6 +4,8 @@ import AudioList from "../screens/AudioList";
 import Player from "../screens/Player";
 import PlayList from "../screens/PlayList";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import Color from "../misc/Color";
+import { View, Text } from "react-native";
 
 const AppNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -16,6 +18,9 @@ const AppNavigator = () => {
           tabBarIcon: ({ color, size }) => {
             return <MaterialIcons name="headset" size={size} color={color} />;
           },
+          tabBarActiveTintColor: Color.ACTIVE_BG,
+          headerTintColor: Color.ACTIVE_BG,
+        
         }}
       />
       <Tab.Screen
@@ -27,6 +32,7 @@ const AppNavigator = () => {
               <FontAwesome5 name="compact-disc" size={size} color={color} />
             );
           },
+          tabBarActiveTintColor: Color.ACTIVE_BG,
         }}
       />
       <Tab.Screen
@@ -38,6 +44,7 @@ const AppNavigator = () => {
               <MaterialIcons name="library-music" size={size} color={color} />
             );
           },
+          tabBarActiveTintColor: Color.ACTIVE_BG,
         }}
       />
     </Tab.Navigator>

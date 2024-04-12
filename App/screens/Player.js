@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, Text, Dimensions } from "react-native";
+import { View, StyleSheet, Text, Dimensions, StatusBar } from "react-native";
 import Screen from "../components/Screen";
 import Color from "../misc/Color";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -20,10 +20,11 @@ const Player = () => {
   console.log(playBackPosition, playBackDuration);
   return (
     <Screen>
+      <StatusBar hidden={false}  backgroundColor={Color.ACTIVE_BG}/>
       <View style={styles.container}>
         <Text style={styles.audioCount}>{`${context.currentAudioIndex + 1}/${
           context.totalAudioCount
-        }`}</Text>
+        } songs`}</Text>
         <View style={styles.midBannerContainer}>
           <MaterialCommunityIcons
             name="music-circle"
@@ -67,13 +68,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#fff",
   },
   audioCount: {
     textAlign: "right",
     padding: 15,
-    color: Color.FINT_LIGHT,
-    fontSize: 14,
+    color: Color.FONT_MEDIUM,
+    fontSize: 19,
+    fontWeight: "600",
+    fontFamily: "monospace",
   },
   midBannerContainer: {
     justifyContent: "center",
