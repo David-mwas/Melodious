@@ -63,17 +63,14 @@ export default class AudioList extends Component {
           soundObj: null,
           currentAudio: this.context.audiofiles[0],
           isPlaying: false,
-          currentAudioIndex: [0],
+          currentAudioIndex: 0,
           playBackPosition: null,
           playBackDuration: null,
         });
         return await storeAudioForNextOpening(this.context.audiofiles[0], 0);
       }
       const audio = this.context.audiofiles[nextAudioIndex];
-      console.log("audio", audio);
-      console.log("audio?.url", audio?.url);
       const status = await playNext(this.context.playBack, audio?.uri);
-      console.log("status", status);
       this.context.updateState(this.context, {
         soundObj: status,
         currentAudio: audio,
