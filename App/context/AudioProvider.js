@@ -4,6 +4,8 @@ import * as MediaLibrary from "expo-media-library";
 import React, { Component, createContext } from "react";
 import { Alert } from "react-native";
 import { DataProvider } from "recyclerlistview";
+import { storeAudioForNextOpening } from "../misc/helper";
+import { playNext } from "../misc/AudioController";
 
 export const AudioContext = createContext();
 
@@ -98,6 +100,43 @@ export class AudioProvider extends Component {
       }
     }
   };
+
+  onPlayBackStatus = async (playbackStatus) => {
+    // console.log("playbackstatus", playbackStatus);
+    if (playbackStatus.isLoaded && playbackStatus.isPlaying) {
+      this.updateState(this, {
+        playBackPosition: playbackStatus?.positionMillis,
+        playBackDuration: playbackStatus?.durationMillis,
+      });
+    }
+    // no next audio-> last
+    if (playbackStatus.didJustFinish) {
+      const nextAudioIndex = this.state.currentAudioIndex + 1;
+      if (nextAudioIndex >= this.totalAudioCount) {
+        this.state.playBack.unloadAsync();
+        this.updateState(this, {
+          soundObj: null,
+          currentAudio: this.state.audiofiles[0],
+          isPlaying: false,
+          currentAudioIndex: 0,
+          playBackPosition: null,
+          playBackDuration: null,
+        });
+        return await storeAudioForNextOpening(this.state.audiofiles[0], 0);
+      }
+      const audio = this.state.audiofiles[nextAudioIndex];
+      const status = await playNext(this.state.playBack, audio?.uri);
+      this.updateState(this, {
+        soundObj: status,
+        currentAudio: audio,
+        isPlaying: true,
+        currentAudioIndex: nextAudioIndex,
+      });
+
+      await storeAudioForNextOpening(audio, nextAudioIndex);
+    }
+  };
+
   componentDidMount() {
     this.getPermission();
     this.setState({ ...this.state, loading: false });
@@ -150,6 +189,7 @@ export class AudioProvider extends Component {
           playBackDuration,
           updateState: this.updateState,
           loadPreviousAudio: this.loadPreviousAudio,
+          onPlayBackStatus: this.onPlayBackStatus,
         }}
       >
         {this.props.children}
