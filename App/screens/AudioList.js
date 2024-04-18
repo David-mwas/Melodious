@@ -184,7 +184,9 @@ export default class AudioList extends Component {
                   />
                   <OptionModel
                     currentItem={this.currentItem}
-                    onPlayListPress={() => {}}
+                    onPlayListPress={() => {
+                      this.props.navigation.navigate("/PlayList");
+                    }}
                     onPlayPress={() => {}}
                     visible={this.state.optionModalViscible}
                     onClose={() => {
