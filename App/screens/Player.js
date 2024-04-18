@@ -15,8 +15,9 @@ const Player = () => {
   const calcSeekBar = () => {
     if (playBackPosition !== null && playBackDuration !== null) {
       return playBackPosition / playBackDuration;
+    } else {
+      return 0;
     }
-    return 0;
   };
 
   useEffect(() => {

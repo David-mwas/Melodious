@@ -1,4 +1,4 @@
- // play audio
+// play audio
 export const play = async (playBack, uri) => {
   try {
     return await playBack.loadAsync({ uri }, { shouldPlay: true });
@@ -19,6 +19,7 @@ export const pause = async (playBack) => {
 };
 // resume audio
 export const resume = async (playBack) => {
+  console.log("playback", playBack);
   try {
     return await playBack.playAsync();
   } catch (error) {
